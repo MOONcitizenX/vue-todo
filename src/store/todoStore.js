@@ -37,5 +37,6 @@ export const useTodoStore = defineStore('todoStore', {
       }
       return this.todoList
     }
-  }
+  },
+  persist: true
 })
