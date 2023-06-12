@@ -1,8 +1,9 @@
 <script setup>
 import { ref } from 'vue'
+import { useTodoStore } from '../store/todoStore'
 
-const props = defineProps(['updateTodo', 'updatingTodoID', 'removeTodo', 'todoItem'])
-
+const props = defineProps(['todoItem'])
+const todoStore = useTodoStore()
 const text = ref(props.todoItem.text)
 const done = ref(props.todoItem.done)
 </script>
@@ -11,7 +12,7 @@ const done = ref(props.todoItem.done)
   <div class="todo-item">
     <div class="todo-top">
       <h3
-        v-if="updatingTodoID !== props.todoItem.id"
+        v-if="todoStore.updatingTodoId !== props.todoItem.id"
         class="todo-title"
         :class="{
           done: props.todoItem.done
@@ -19,23 +20,23 @@ const done = ref(props.todoItem.done)
       >
         {{ text }}
       </h3>
-      <form @submit.prevent="props.updateTodo(text, props.todoItem.id)">
+      <form @submit.prevent="todoStore.updateTodoText(props.todoItem.id, text)">
         <input
-          v-if="updatingTodoID === props.todoItem.id"
+          v-if="todoStore.updatingTodoId === props.todoItem.id"
           v-model="text"
           class="updating-todo"
           type="text"
         />
       </form>
-      <button class="remove-button" @click="() => props.removeTodo(props.todoItem.id)">
+      <button class="remove-button" @click="todoStore.removeTodo(props.todoItem.id)">
         <img class="trash-icon" src="../assets/trash-full-svgrepo-com.svg" />
       </button>
-      <button @click="() => $emit('startUpdate', props.todoItem.id)">update</button>
+      <button @click="todoStore.startUpdating(props.todoItem.id)">update</button>
     </div>
     <input
       type="checkbox"
       v-model="done"
-      @change="() => $emit('updateDone', props.todoItem.id, done)"
+      @change="todoStore.updateTodoDone(props.todoItem.id, done)"
     />
   </div>
 </template>

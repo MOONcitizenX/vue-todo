@@ -1,11 +1,14 @@
 <script setup>
+import { useTodoStore } from '../store/todoStore'
 import { ref } from 'vue'
-const emit = defineEmits(['addTodo'])
+
+const todoStore = useTodoStore()
+
 const todoInput = ref('')
 let todoID = 1
 
 const addTodo = () => {
-  emit('addTodo', {
+  todoStore.addTodo({
     id: todoID,
     text: todoInput.value,
     done: false

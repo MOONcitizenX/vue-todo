@@ -1,45 +1,21 @@
 <script setup>
+import { useTodoStore } from './store/todoStore'
 import TheHeader from './components/TheHeader.vue'
 import TodoForm from './components/TodoForm.vue'
 import TodoItem from './components/TodoItem.vue'
-import { ref } from 'vue'
 
-const todoList = ref([])
-
-const updatingTodoID = ref(null)
-
-const removeTodo = (id) => {
-  todoList.value = todoList.value.filter((t) => t.id !== id)
-}
-
-const updateTodo = (text, id) => {
-  todoList.value.find((t) => t.id === id).text = text
-  updatingTodoID.value = null
-}
-
-const updateDone = (id, done) => {
-  todoList.value.find((t) => t.id === id).done = done
-}
+const todoStore = useTodoStore()
 </script>
 
 <template>
   <TheHeader />
   <div class="container">
     <main class="main">
-      <TodoForm @addTodo="(todo) => todoList.push(todo)" />
+      <TodoForm />
     </main>
   </div>
   <div class="container todo-list">
-    <TodoItem
-      v-for="todo in todoList"
-      :key="todo.id"
-      :updatingTodoID="updatingTodoID"
-      :removeTodo="removeTodo"
-      :updateTodo="updateTodo"
-      :todoItem="todo"
-      @startUpdate="(id) => (updatingTodoID = id)"
-      @updateDone="updateDone"
-    />
+    <TodoItem v-for="todo in todoStore.todoList" :key="todo.id" :todoItem="todo" />
   </div>
 </template>
 
