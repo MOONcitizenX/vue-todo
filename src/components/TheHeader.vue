@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <div class="container header-container">
     <header class="header">

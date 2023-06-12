@@ -4,6 +4,7 @@ import { useTodoStore } from '../store/todoStore'
 
 const props = defineProps(['todoItem'])
 const todoStore = useTodoStore()
+
 const text = ref(props.todoItem.text)
 const done = ref(props.todoItem.done)
 </script>
