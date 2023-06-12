@@ -1,1 +1,25 @@
-@import './base.css';
+:root {
+  --main-color: #0d3018;
+  --bg-color: #589d6d;
+  --red-color: #bb586c;
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+body {
+  font-family: 'Poppins';
+  color: var(--main-color);
+}
