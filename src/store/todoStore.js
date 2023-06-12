@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 export const useTodoStore = defineStore('todoStore', {
   state: () => ({
     todoList: [],
-    updatingTodoId: null
+    updatingTodoId: null,
+    todoFilter: 'all'
   }),
   actions: {
     addTodo(todo) {
@@ -21,7 +22,20 @@ export const useTodoStore = defineStore('todoStore', {
     },
     startUpdating(id) {
       this.updatingTodoId = id
+    },
+    setFilter(filter) {
+      this.todoFilter = filter
     }
   },
-  getters: {}
+  getters: {
+    filteredTodoList() {
+      if (this.todoFilter === 'done') {
+        return this.todoList.filter((t) => t.done)
+      }
+      if (this.todoFilter === 'undone') {
+        return this.todoList.filter((t) => !t.done)
+      }
+      return this.todoList
+    }
+  }
 })
