@@ -1,19 +1,30 @@
 <script setup>
 import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useTodoStore } from '../store/todoStore'
 
 const props = defineProps(['todoItem'])
 const todoStore = useTodoStore()
 
+const { updatingTodoId } = storeToRefs(todoStore)
+
 const text = ref(props.todoItem.text)
 const done = ref(props.todoItem.done)
+
+const todoId = ref(props.todoItem.id)
+
+const handleUpdateClick = () => {
+  updatingTodoId.value !== todoId.value
+    ? todoStore.startUpdating(todoId.value)
+    : todoStore.updateTodoText(todoId.value, text)
+}
 </script>
 
 <template>
   <div class="todo-item">
     <div class="todo-top">
       <h3
-        v-if="todoStore.updatingTodoId !== props.todoItem.id"
+        v-if="updatingTodoId !== todoId"
         class="todo-title"
         :class="{
           done: props.todoItem.done
@@ -21,24 +32,15 @@ const done = ref(props.todoItem.done)
       >
         {{ text }}
       </h3>
-      <form @submit.prevent="todoStore.updateTodoText(props.todoItem.id, text)">
-        <input
-          v-if="todoStore.updatingTodoId === props.todoItem.id"
-          v-model="text"
-          class="updating-todo"
-          type="text"
-        />
+      <form @submit.prevent="todoStore.updateTodoText(todoId, text)">
+        <input v-if="updatingTodoId === todoId" v-model="text" class="updating-todo" type="text" />
       </form>
-      <button class="remove-button" @click="todoStore.removeTodo(props.todoItem.id)">
+      <button class="remove-button" @click="todoStore.removeTodo(todoId)">
         <img class="trash-icon" src="../assets/trash-full-svgrepo-com.svg" />
       </button>
-      <button @click="todoStore.startUpdating(props.todoItem.id)">update</button>
+      <button @click="handleUpdateClick">update</button>
     </div>
-    <input
-      type="checkbox"
-      v-model="done"
-      @change="todoStore.updateTodoDone(props.todoItem.id, done)"
-    />
+    <input type="checkbox" v-model="done" @change="todoStore.updateTodoDone(todoId, done)" />
   </div>
 </template>
 
