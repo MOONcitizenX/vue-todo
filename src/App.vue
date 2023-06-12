@@ -28,9 +28,13 @@ const todoStore = useTodoStore()
 }
 
 .todo-list {
+  width: 100%;
+  max-width: 800px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: start;
+  gap: 20px;
 }
 </style>

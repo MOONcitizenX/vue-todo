@@ -49,6 +49,8 @@ const done = ref(props.todoItem.done)
   justify-content: start;
   align-items: start;
   gap: 10px;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed var(--bg-color);
 }
 
 .todo-top {

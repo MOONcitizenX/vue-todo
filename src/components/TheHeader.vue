@@ -12,6 +12,8 @@
 <style scoped>
 .header-container {
   background-color: var(--bg-color);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 .header {
   display: flex;
